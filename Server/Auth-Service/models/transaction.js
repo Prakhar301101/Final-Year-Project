@@ -9,6 +9,10 @@ module.exports = (sequelize) => {
                 foreignKey: "UserId",
                 as: "user",
             });
+            Transaction.belongsTo(models.Product, {
+                foreignKey: "productID",
+                as: "product",
+            });
         }
     }
 
@@ -23,31 +27,42 @@ module.exports = (sequelize) => {
                 },
             },
             date: {
-                type: DataTypes.STRING,
+                type: DataTypes.DATE,
                 allowNull: false,
             },
             orderID: {
-                type: DataTypes.STRING,
+                type: DataTypes.INTEGER,
                 allowNull: false,
+                default: 0,
             },
             item: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
             quantity: {
-                type: DataTypes.STRING,
+                type: DataTypes.DECIMAL(10, 3),
                 allowNull: false,
+                default: 0.0,
             },
             sellingPrice: {
-                type: DataTypes.STRING,
+                type: DataTypes.DECIMAL(10, 2),
                 allowNull: false,
+                default: 0.0,
+            },
+            productID: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                references: {
+                    model: "products",
+                    key: "productID",
+                },
             },
         },
         {
             sequelize,
             modelName: "Transaction",
             tableName: "transactions",
-            timestamps: true, // Enable createdAt and updatedAt
+            timestamps: false, // Enable createdAt and updatedAt
         }
     );
 

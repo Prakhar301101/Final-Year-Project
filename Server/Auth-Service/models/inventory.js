@@ -9,11 +9,30 @@ module.exports = (sequelize) => {
                 foreignKey: "UserId",
                 as: "user",
             });
+            // An inventory belongs to a product
+            Inventory.belongsTo(models.Product, {
+                foreignKey: "productID",
+                as: "product",
+            });
         }
     }
 
     Inventory.init(
         {
+            inventoryID: {
+                type: DataTypes.INTEGER,
+                autoIncrement: true,
+                primaryKey: true,
+                allowNull: false,
+            },
+            productID: {
+                type: DataTypes.INTEGER,
+                allowNull: true,
+                references: {
+                    model: "products",
+                    key: "productID",
+                },
+            },
             UserId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
@@ -39,7 +58,7 @@ module.exports = (sequelize) => {
             sequelize,
             modelName: "Inventory",
             tableName: "inventories",
-            timestamps: true,
+            timestamps: false,
         }
     );
 
